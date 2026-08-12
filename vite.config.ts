@@ -4,6 +4,11 @@ import path from 'node:path';
 
 export default defineConfig({
   plugins: [react()],
+  // Por defecto Vite cachea en node_modules/.vite. Railway monta esa ruta como
+  // caché de build, y `npm ci` borra node_modules antes de instalar: no se
+  // puede hacer rmdir de un punto de montaje y el deploy muere con EBUSY.
+  // Sacando la caché fuera de node_modules, el conflicto desaparece.
+  cacheDir: '.vite-cache',
   resolve: {
     alias: { '@': path.resolve(__dirname, './src') },
   },

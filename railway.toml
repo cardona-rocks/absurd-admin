@@ -1,14 +1,19 @@
-# Railway: build de Vite y servido como SPA por server.js.
+# Railway: build con Dockerfile y servido como SPA por server.js.
 #
-# En el servicio hay que definir VITE_API_URL con el dominio público de la API,
-# por ejemplo https://absurd-api-production.up.railway.app
-# Es una variable de build: Vite la incrusta en el bundle, así que después de
-# cambiarla hay que volver a desplegar.
+# Se fuerza el builder de Docker a propósito. El automático monta cachés dentro
+# de node_modules y `npm ci` no puede borrar un punto de montaje, así que el
+# build moría con EBUSY en node_modules/.vite.
+#
+# Hay que definir VITE_API_URL en las variables del servicio, con el dominio
+# público de la API (por ejemplo https://absurd-api-production.up.railway.app).
+# Vite la incrusta en el bundle durante el build: si la cambias, vuelve a
+# desplegar — reiniciar no basta.
 
 [build]
-buildCommand = "npm ci && npm run build"
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
 
 [deploy]
-startCommand = "npm run start"
+startCommand = "node server.js"
 healthcheckPath = "/"
 restartPolicyType = "on_failure"
