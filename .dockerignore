@@ -1,0 +1,18 @@
+# Sin esto, el node_modules local entra en el contexto de build y `npm ci`
+# revienta con EBUSY al intentar borrar node_modules/.vite (la caché de Vite).
+node_modules
+dist
+
+.git
+.gitignore
+
+.env
+.env.*
+!.env.example
+
+*.log
+npm-debug.log*
+.DS_Store
+.vite
+coverage
+*.tsbuildinfo
