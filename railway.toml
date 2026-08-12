@@ -1,0 +1,14 @@
+# Railway: build de Vite y servido como SPA por server.js.
+#
+# En el servicio hay que definir VITE_API_URL con el dominio público de la API,
+# por ejemplo https://absurd-api-production.up.railway.app
+# Es una variable de build: Vite la incrusta en el bundle, así que después de
+# cambiarla hay que volver a desplegar.
+
+[build]
+buildCommand = "npm ci && npm run build"
+
+[deploy]
+startCommand = "npm run start"
+healthcheckPath = "/"
+restartPolicyType = "on_failure"

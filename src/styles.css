@@ -1,0 +1,569 @@
+/* ==========================================================================
+   A.b.s.u.r.d. · Panel — tinta sobre papel, mismo lenguaje que el juego
+   ========================================================================== */
+
+:root {
+  --paper: #f2ede1;
+  --paper-2: #e7e0d0;
+  --paper-3: #dbd2be;
+  --card: #fbf8f0;
+  --ink: #19150f;
+  --ink-2: #423c30;
+  --ink-3: #837b6a;
+  --red: #e23a28;
+  --red-deep: #b62a1b;
+  --green: #2f7d4f;
+  --gold: #e9b83a;
+
+  --font-disp: 'Archivo Black', system-ui, sans-serif;
+  --font-ui: 'Archivo', system-ui, sans-serif;
+
+  --bd: 3px;
+  --sh: 5px 5px 0 var(--ink);
+  --sh-sm: 3px 3px 0 var(--ink);
+  --radius: 14px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-ui);
+  color: var(--ink);
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(120% 80% at 100% 0%, rgba(226, 58, 40, 0.05), transparent 55%),
+    radial-gradient(100% 70% at 0% 100%, rgba(25, 21, 15, 0.04), transparent 55%);
+  font-weight: 500;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-disp);
+  letter-spacing: -0.4px;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+/* ---- primitivas ---------------------------------------------------------- */
+
+.card {
+  background: var(--card);
+  border: var(--bd) solid var(--ink);
+  border-radius: 18px 13px 20px 12px / 13px 20px 12px 18px;
+  box-shadow: var(--sh-sm);
+}
+
+.eyebrow {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.muted {
+  color: var(--ink-3);
+}
+
+.btn {
+  font-family: var(--font-disp);
+  font-size: 14px;
+  text-transform: uppercase;
+  border: var(--bd) solid var(--ink);
+  border-radius: 14px 10px 16px 9px / 10px 16px 9px 14px;
+  background: var(--card);
+  color: var(--ink);
+  padding: 11px 18px;
+  cursor: pointer;
+  box-shadow: var(--sh-sm);
+  transition:
+    transform 0.07s ease,
+    box-shadow 0.07s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1;
+}
+
+.btn:active:not(:disabled) {
+  transform: translate(3px, 3px);
+  box-shadow: none;
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-red {
+  background: var(--red);
+  color: #fff;
+}
+
+.btn-dark {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.btn-sm {
+  font-size: 12px;
+  padding: 8px 12px;
+}
+
+.btn-ghost {
+  background: transparent;
+}
+
+.input,
+.select,
+.textarea {
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--card);
+  border: var(--bd) solid var(--ink);
+  border-radius: var(--radius);
+  padding: 11px 13px;
+  width: 100%;
+  outline: none;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  border-color: var(--red);
+}
+
+.textarea {
+  min-height: 88px;
+  resize: vertical;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.grow {
+  flex: 1;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ---- etiquetas ----------------------------------------------------------- */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 3px 8px;
+  border-radius: 7px;
+  border: 2px solid currentColor;
+}
+
+.tag-red {
+  color: var(--red);
+}
+.tag-green {
+  color: var(--green);
+}
+.tag-muted {
+  color: var(--ink-3);
+}
+
+/* Categorías: valor codificado con color, en la línea B&N + acento. */
+.cat-Basic {
+  color: #8a8276;
+}
+.cat-Rare {
+  color: #2e5e8c;
+}
+.cat-Epic {
+  color: #6b3fa0;
+}
+.cat-Legendary {
+  color: var(--red);
+}
+.cat-Hidden {
+  color: #5b5b5b;
+}
+.cat-Unique {
+  color: #0f7b6c;
+}
+.cat-Limited {
+  color: #b8791b;
+}
+.cat-Whalegrade {
+  color: #1b3a8f;
+}
+
+/* ---- layout -------------------------------------------------------------- */
+
+.shell {
+  display: grid;
+  grid-template-columns: 232px 1fr;
+  min-height: 100%;
+}
+
+.sidebar {
+  border-right: var(--bd) solid var(--ink);
+  background: var(--card);
+  padding: 20px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.brand {
+  font-family: var(--font-disp);
+  font-size: 22px;
+  letter-spacing: -1px;
+  margin-bottom: 16px;
+  padding: 0 8px;
+}
+
+.brand span {
+  color: var(--red);
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 11px;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  color: var(--ink-2);
+  border: 2px solid transparent;
+}
+
+.nav-item:hover {
+  background: var(--paper-2);
+}
+
+.nav-item.active {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.main {
+  padding: 26px 30px 60px;
+  max-width: 1240px;
+  width: 100%;
+}
+
+.page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+
+/* ---- tablas -------------------------------------------------------------- */
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.table th {
+  text-align: left;
+  font-size: 11px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding: 10px 12px;
+  border-bottom: 2px solid var(--paper-3);
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 11px 12px;
+  border-bottom: 2px solid var(--paper-2);
+  vertical-align: middle;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.table tbody tr:hover {
+  background: rgba(226, 58, 40, 0.04);
+}
+
+/* ---- rejillas ------------------------------------------------------------ */
+
+.grid {
+  display: grid;
+  gap: 14px;
+}
+
+.grid-stats {
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+
+.grid-avatars {
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+}
+
+.stat-card {
+  padding: 16px 18px;
+}
+
+.stat-value {
+  font-family: var(--font-disp);
+  font-size: 30px;
+  line-height: 1.1;
+  margin-top: 4px;
+}
+
+/* ---- sprites ------------------------------------------------------------- */
+
+.sprite-group {
+  padding: 16px;
+  margin-bottom: 14px;
+}
+
+.sprite-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.sprite-thumb {
+  position: relative;
+  width: 96px;
+  height: 108px;
+  border: 2.5px solid var(--ink);
+  border-radius: 10px;
+  background:
+    var(--paper)
+    repeating-conic-gradient(var(--paper-2) 0% 25%, transparent 0% 50%) 50% / 14px 14px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+
+.sprite-thumb img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.sprite-thumb .order-badge {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-disp);
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.sprite-actions {
+  position: absolute;
+  bottom: 3px;
+  right: 3px;
+  display: flex;
+  gap: 3px;
+}
+
+.icon-btn {
+  border: 2px solid var(--ink);
+  background: var(--card);
+  border-radius: 6px;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1;
+  padding: 0;
+  font-weight: 800;
+}
+
+.icon-btn:hover {
+  background: var(--red);
+  color: #fff;
+}
+
+.dropzone {
+  border: 3px dashed var(--ink-3);
+  border-radius: var(--radius);
+  padding: 18px;
+  text-align: center;
+  cursor: pointer;
+  color: var(--ink-3);
+  font-weight: 700;
+  font-size: 13px;
+  background: var(--paper);
+}
+
+.dropzone.over {
+  border-color: var(--red);
+  color: var(--red);
+  background: rgba(226, 58, 40, 0.06);
+}
+
+/* ---- avisos -------------------------------------------------------------- */
+
+.alert {
+  padding: 12px 14px;
+  border: var(--bd) solid var(--ink);
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.alert-error {
+  background: rgba(226, 58, 40, 0.1);
+  border-color: var(--red);
+  color: var(--red-deep);
+}
+
+.alert-ok {
+  background: rgba(47, 125, 79, 0.1);
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.alert-warn {
+  background: rgba(233, 184, 58, 0.14);
+  border-color: #a37f16;
+  color: #6d5410;
+}
+
+/* ---- modal --------------------------------------------------------------- */
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(25, 21, 15, 0.55);
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  z-index: 50;
+}
+
+.modal {
+  background: var(--paper);
+  border: var(--bd) solid var(--ink);
+  border-radius: 20px;
+  box-shadow: var(--sh);
+  width: 100%;
+  max-width: 520px;
+  max-height: 88vh;
+  overflow-y: auto;
+  padding: 22px;
+}
+
+/* ---- login --------------------------------------------------------------- */
+
+.login-wrap {
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 30px 26px;
+}
+
+/* ---- utilidades ---------------------------------------------------------- */
+
+.spinner {
+  width: 26px;
+  height: 26px;
+  border: 3px solid var(--paper-3);
+  border-top-color: var(--red);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.center-box {
+  display: grid;
+  place-items: center;
+  padding: 60px 0;
+  gap: 12px;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+@media (max-width: 860px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    position: static;
+    height: auto;
+    border-right: none;
+    border-bottom: var(--bd) solid var(--ink);
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .brand {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+  .main {
+    padding: 18px 16px 50px;
+  }
+}
