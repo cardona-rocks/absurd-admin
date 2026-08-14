@@ -5,6 +5,8 @@ import { ROLE_LABELS } from '@/lib/types';
 const NAV = [
   { to: '/', label: 'Resumen', end: true },
   { to: '/avatars', label: 'Avatares' },
+  { to: '/enemies', label: 'Enemigos' },
+  { to: '/campaign', label: 'Campaña' },
   { to: '/users', label: 'Usuarios' },
   { to: '/audit', label: 'Auditoría' },
 ];

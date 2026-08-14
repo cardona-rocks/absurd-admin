@@ -7,8 +7,117 @@ export const CATEGORIES = [
   'Unique',
   'Limited',
   'Whalegrade',
+  'Enemy',
 ] as const;
 export type Category = (typeof CATEGORIES)[number];
+
+/** Las que un jugador puede tener. 'Enemy' es del sistema y no se vende. */
+export const PLAYABLE_CATEGORIES = CATEGORIES.filter((c) => c !== 'Enemy');
+
+// ------------------------------------------------------------------ campaña
+
+/** Clase de un enemigo dentro de la campaña. */
+export const ENEMY_CLASSES = ['Basic', 'Elite', 'Boss'] as const;
+export type EnemyClass = (typeof ENEMY_CLASSES)[number];
+
+export const ENEMY_CLASS_LABELS: Record<EnemyClass, string> = {
+  Basic: 'Común',
+  Elite: 'Élite',
+  Boss: 'Jefe',
+};
+
+export const LEVEL_KINDS = ['basic', 'gauntlet', 'elite', 'boss'] as const;
+export type LevelKind = (typeof LEVEL_KINDS)[number];
+
+export const LEVEL_KIND_LABELS: Record<LevelKind, string> = {
+  basic: 'Normal',
+  gauntlet: 'Gauntlet',
+  elite: 'Élite',
+  boss: 'Jefe',
+};
+
+/** Un ciclo de campaña dura 20 niveles y se repite para siempre. */
+export const CYCLE_LENGTH = 20;
+
+export interface EnemyFields {
+  level: number;
+  hearts: number;
+  class: EnemyClass;
+  /** null = usa el valor por defecto de su clase. */
+  counterRate: number | null;
+}
+
+export interface CampaignLevel {
+  _id: string | null;
+  slot: number;
+  /** null = plantilla del ciclo; un número = excepción para ese nivel. */
+  level: number | null;
+  name: string;
+  kind: LevelKind;
+  enemyClass: EnemyClass;
+  enemyCount: number;
+  heartsPerEnemy: number[];
+  heartsPerEnemyAlt: number[];
+  playerHearts: number;
+  enemies: string[];
+  enabled: boolean;
+  notes: string;
+  /** Sólo en las ranuras del ciclo: si existe ya en la base o es de fábrica. */
+  seeded?: boolean;
+}
+
+export interface EnemyOption {
+  _id: string;
+  name: string;
+  slug: string;
+  class: EnemyClass;
+  level: number;
+  hearts: number;
+  counterRate: number | null;
+  retired: boolean;
+  /** Tiene al menos una imagen de frente. */
+  ready: boolean;
+}
+
+export interface CampaignOverview {
+  cycleLength: number;
+  cycle: CampaignLevel[];
+  overrides: CampaignLevel[];
+  enemies: EnemyOption[];
+  enemyCounts: Record<EnemyClass, number>;
+  warnings: string[];
+}
+
+export interface LevelPlan {
+  level: number;
+  slot: number;
+  cycle: number;
+  name: string;
+  kind: LevelKind;
+  enemyClass: EnemyClass;
+  enemyCount: number;
+  hearts: number[];
+  playerHearts: number;
+  enemyIds: string[];
+  source: 'override' | 'template' | 'default';
+}
+
+export interface CampaignStats {
+  players: number;
+  averageLevel: number;
+  highestLevel: number;
+  levels: { level: number; attempts: number; wins: number; winRate: number }[];
+  recent: {
+    _id: string;
+    level: number;
+    levelName: string;
+    kind: LevelKind;
+    won: boolean;
+    creditsEarned: number;
+    finishedAt: string;
+    userId?: { name: string } | string;
+  }[];
+}
 
 export const SPRITE_TYPES = ['front', 'back', 'default', 'win', 'lose'] as const;
 export type SpriteType = (typeof SPRITE_TYPES)[number];
@@ -68,6 +177,10 @@ export interface Avatar {
   stats: { wins: number; loses: number; draws: number };
   /** Cuántos jugadores lo tienen; solo llega en el listado. */
   ownedBy?: number;
+  /** Ficha de combate. Sólo la tienen los de categoría 'Enemy'. */
+  enemy?: EnemyFields | null;
+  /** Listo para salir a pelear (tiene imagen de frente); sólo en el listado. */
+  ready?: boolean;
 }
 
 export interface AdminUser {

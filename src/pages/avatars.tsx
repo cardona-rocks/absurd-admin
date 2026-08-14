@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { api, assetUrl, del, patch, post } from '@/lib/api';
 import {
-  CATEGORIES,
+  PLAYABLE_CATEGORIES,
   missingRequiredSprites,
   SPRITE_LABELS,
   type Avatar,
@@ -104,7 +104,7 @@ export function AvatarsPage() {
             }}
           >
             <option value="">Todas las categorías</option>
-            {CATEGORIES.map((c) => (
+            {PLAYABLE_CATEGORIES.map((c) => (
               <option key={c} value={c}>
                 {c}
               </option>
@@ -355,7 +355,7 @@ function CreateAvatarModal({
               value={category}
               onChange={(e) => setCategory(e.target.value as Category)}
             >
-              {CATEGORIES.map((c) => (
+              {PLAYABLE_CATEGORIES.map((c) => (
                 <option key={c} value={c}>
                   {c}
                 </option>
@@ -515,7 +515,7 @@ function EditAvatarModal({
                     setForm({ ...form, category: e.target.value as Category })
                   }
                 >
-                  {CATEGORIES.map((c) => (
+                  {PLAYABLE_CATEGORIES.map((c) => (
                     <option key={c} value={c}>
                       {c}
                     </option>

@@ -5,6 +5,8 @@ import { LoginPage } from '@/pages/login';
 import { ChangePasswordPage } from '@/pages/change-password';
 import { DashboardPage } from '@/pages/dashboard';
 import { AvatarsPage } from '@/pages/avatars';
+import { EnemiesPage } from '@/pages/enemies';
+import { CampaignPage } from '@/pages/campaign';
 import { UsersPage } from '@/pages/users';
 import { AuditPage } from '@/pages/audit';
 import { Spinner } from '@/components/ui';
@@ -25,6 +27,8 @@ function Gate() {
       <Route element={<Layout />}>
         <Route index element={<DashboardPage />} />
         <Route path="avatars" element={<AvatarsPage />} />
+        <Route path="enemies" element={<EnemiesPage />} />
+        <Route path="campaign" element={<CampaignPage />} />
         <Route path="users" element={<UsersPage />} />
         <Route path="audit" element={<AuditPage />} />
       </Route>
