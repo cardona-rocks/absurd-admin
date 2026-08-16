@@ -102,7 +102,8 @@ export function CampaignPage() {
       <h2 className="section-title">El ciclo</h2>
       <p className="muted" style={{ marginBottom: 12 }}>
         Cada ranura vale para todos los niveles que caen en ella. La ranura 6
-        manda sobre los niveles 6, 26, 46…
+        manda sobre los niveles 6, 26, 46… El jugador nunca ve el ciclo: en la
+        app los niveles sólo cuentan hacia arriba y cada vuelta estrena nombres.
       </p>
 
       <div className="card table-wrap">
@@ -110,7 +111,7 @@ export function CampaignPage() {
           <thead>
             <tr>
               <th style={{ width: 70 }}>Ranura</th>
-              <th>Nombre</th>
+              <th>Etiqueta</th>
               <th>Tipo</th>
               <th>Enemigos</th>
               <th>Corazones</th>
@@ -599,12 +600,19 @@ function LevelFields({
 
   return (
     <>
-      <Field label="Nombre" hint="Lo ve el jugador. Vacío usa 'Nivel N'.">
+      <Field
+        label={form.level == null ? 'Etiqueta interna' : 'Nombre'}
+        hint={
+          form.level == null
+            ? 'Sólo para el panel. Al jugador se le enseña un nombre distinto en cada vuelta, para que no note que los niveles se repiten.'
+            : "Lo ve el jugador. Vacío usa 'Nivel N'."
+        }
+      >
         <input
           className="input"
           value={form.name}
           onChange={(e) => setForm({ ...form, name: e.target.value })}
-          placeholder="Jefe de ciclo"
+          placeholder={form.level == null ? 'Ranura del jefe' : 'La emboscada'}
         />
       </Field>
 
